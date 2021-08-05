@@ -3,12 +3,13 @@
 
 namespace totum\commands;
 
+use Exception;
+use ReflectionClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use totum\common\errorException;
 use totum\common\TotumInstall;
 use totum\common\User;
@@ -59,15 +60,15 @@ class SchemaAdd extends Command
 
         $output->writeln('save Conf.php');
 
-        $ConfFile= (new \ReflectionClass(Conf::class))->getFileName();
+        $ConfFile= (new ReflectionClass(Conf::class))->getFileName();
         $ConfFileContent=file_get_contents($ConfFile);
 
-        if (!preg_match('~\/\*\*\*getSchemas\*\*\*\/[^$]*{[^$]*return([^$]*)\}[^$]*/\*\*\*getSchemasEnd\*\*\*/~', $ConfFileContent, $matches)) {
-            throw new \Exception('Format of file not correct. Can\'t replace function getSchemas');
+        if (!preg_match('~/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return([^$]*)}[^$]*/\*\*\*getSchemasEnd\*\*\*/~', $ConfFileContent, $matches)) {
+            throw new Exception('Format of file not correct. Can\'t replace function getSchemas');
         }
         eval("\$schemas={$matches[1]}");
         $schemas[$input->getArgument('host')]=$input->getArgument('name');
-        $ConfFileContent= preg_replace('~(\/\*\*\*getSchemas\*\*\*\/[^$]*{[^$]*return\s*)([^$]*)(\}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~', '$1'.var_export($schemas, 1).';$3', $ConfFileContent);
+        $ConfFileContent= preg_replace('~(/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return\s*)([^$]*)(}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~', '$1'.var_export($schemas, 1).';$3', $ConfFileContent);
         copy($ConfFile, $ConfFile.'_old');
         file_put_contents($ConfFile, $ConfFileContent);
     }

@@ -3,6 +3,7 @@
 
 namespace totum\commands;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,7 +40,7 @@ class SchemaCrons extends Command
             $date = date_create();
         }
         if (!$date) {
-            throw new \Exception('Date format is not correct');
+            throw new Exception('Date format is not correct');
         }
 
         $nowMinute = $date->format('i');

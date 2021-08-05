@@ -20,12 +20,9 @@ use totum\models\Table;
 
 abstract class RealTables extends aTable
 {
-    protected $elseWhere = ['is_del' => false];
+    protected array $elseWhere = ['is_del' => false];
 
-    protected $header = [];
-    protected $cachedUpdate;
-    protected $caches = [];
-    protected $nTailLength;
+    protected ?int $nTailLength;
     /**
      * @var array|bool|int[]|mixed|string|string[]
      */
@@ -491,9 +488,9 @@ abstract class RealTables extends aTable
             return $this->model->executePreparedSimple(
                 true,
                 "select * from (select id, row_number()  over(order by $orders) as t from {$this->model->getTableName()} where $whereStr) z where id IN (" . implode(
-                        ',',
-                        array_fill(0, count($untilId), '?')
-                    ) . ")",
+                    ',',
+                    array_fill(0, count($untilId), '?')
+                ) . ")",
                 $paramsWhere
             )->fetchColumn(1) + $isRefresh;
         }
@@ -894,10 +891,10 @@ abstract class RealTables extends aTable
             if (!empty($this->tbl['rows'][$id])) {
                 $this->tbl['rows'][$id] = $this->modifyRow(
                     $channel,
+                    $this->tbl['rows'][$id],
                     $modify[$id] ?? [],
                     $setValuesToDefaults[$id] ?? [],
                     $setValuesToPinned[$id] ?? [],
-                    $this->tbl['rows'][$id],
                     $modifyCalculated,
                     !$isCheck
                 );
@@ -976,7 +973,7 @@ abstract class RealTables extends aTable
         $this->model = $this->Totum->getModel($this->tableRow['name']);
     }
 
-    protected function modifyRow($channel, $modify = [], $setValuesToDefaults = [], $setValuesToPinned = [], $oldRow, $modifyCalculated = true, $saveIt = true)
+    protected function modifyRow($channel, $oldRow, $modify = [], $setValuesToDefaults = [], $setValuesToPinned = [], $modifyCalculated = true, $saveIt = true)
     {
         $changedData = ['id' => $oldRow['id']];
 
@@ -1097,7 +1094,7 @@ abstract class RealTables extends aTable
 
         /******Расчет дублированной строки для  REAL-таблиц********/
 
-        $baseRow = $this->modifyRow($channel, [], [], [], $baseRow);
+        $baseRow = $this->modifyRow($channel, $baseRow);
         $newRowData = [];
         foreach ($this->sortedFields['column'] as $field) {
             if (array_key_exists($field['name'], ($replaces))) {
@@ -1252,9 +1249,9 @@ abstract class RealTables extends aTable
                 $v['name'],
                 $addData
             ) && $this->insertRowSetData && key_exists(
-                    $v['name'],
-                    $this->insertRowSetData
-                )) {
+                $v['name'],
+                $this->insertRowSetData
+            )) {
                 $_channel = 'inner';
                 $newVal = $this->insertRowSetData[$v['name']];
                 unset($this->insertRowSetData[$v['name']]);

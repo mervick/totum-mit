@@ -3,6 +3,7 @@
 
 namespace totum\commands;
 
+use ReflectionClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -130,11 +131,11 @@ class SchemaDuplicate extends Command
             unlink($tmpFileName);
 
             if ($host = $input->getArgument('host')) {
-                $ConfFile = (new \ReflectionClass(Conf::class))->getFileName();
+                $ConfFile = (new ReflectionClass(Conf::class))->getFileName();
                 $ConfFileContent = file_get_contents($ConfFile);
 
                 if (preg_match(
-                    '~\/\*\*\*getSchemas\*\*\*\/[^$]*{[^$]*return([^$]*)\}[^$]*/\*\*\*getSchemasEnd\*\*\*/~',
+                    '~/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return([^$]*)}[^$]*/\*\*\*getSchemasEnd\*\*\*/~',
                     $ConfFileContent,
                     $matches
                 )) {
@@ -143,7 +144,7 @@ class SchemaDuplicate extends Command
                     eval("\$schemas={$matches[1]}");
                     $schemas[$host] = $desName;
                     $ConfFileContent = preg_replace(
-                        '~(\/\*\*\*getSchemas\*\*\*\/[^$]*{[^$]*return\s*)([^$]*)(\}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~',
+                        '~(/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return\s*)([^$]*)(}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~',
                         '$1' . var_export($schemas, 1) . ';$3',
                         $ConfFileContent
                     );

@@ -4,7 +4,6 @@
 use totum\commands\CleanSchemasTmpTables;
 use totum\commands\CleanSchemaTmpTables;
 use totum\commands\CleanTmps;
-use totum\commands\CleanTmpTablesFiles;
 use totum\commands\CleanTmpTablesFilesMulti;
 use totum\commands\GitUpdate;
 use totum\commands\SchemaAdd;

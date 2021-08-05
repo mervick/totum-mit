@@ -3,6 +3,7 @@
 
 namespace totum\commands;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,10 +44,10 @@ class SchemaCron extends Command
             if ($cronRow = $Conf->getModel('crons')->get(['id' => (int)$cronId, 'status' => 'true'])) {
                 $cronRow = Model::getClearValuesWithExtract($cronRow);
             }else{
-                throw new \Exception('Row cron not found or not active');
+                throw new Exception('Row cron not found or not active');
             }
         }else{
-            throw new \Exception('Id of cron not found or empty');
+            throw new Exception('Id of cron not found or empty');
         }
 
 
