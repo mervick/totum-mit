@@ -15,12 +15,9 @@ use totum\models\Table;
 use totum\models\TablesCalcsConnects;
 use totum\tableTypes\aTable;
 use totum\tableTypes\calcsTable;
-use totum\tableTypes\globcalcsTable;
 
 class Cycle
 {
-    protected $cycleId;
-    protected $cyclesTableId;
     protected $cyclesTableRow;
     protected $tables = [];
     protected $tableVersions = [];
@@ -29,19 +26,12 @@ class Cycle
     protected $cacheVersions = [];
 
     /* Создавать cycle нужно только из объекта Тотум*/
-    /**
-     * @var Totum
-     */
-    protected $Totum;
 
-    public function __construct($id, $cyclesTableId, Totum $Totum)
+    public function __construct(protected int $cycleId, protected int $cyclesTableId, protected Totum $Totum)
     {
-        $this->cycleId = $id;
-        $this->cyclesTableId = $cyclesTableId;
-        $this->Totum = $Totum;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->cycleId;
     }

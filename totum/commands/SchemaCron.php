@@ -43,10 +43,10 @@ class SchemaCron extends Command
         if ($cronId = $input->getArgument('cronId')) {
             if ($cronRow = $Conf->getModel('crons')->get(['id' => (int)$cronId, 'status' => 'true'])) {
                 $cronRow = Model::getClearValuesWithExtract($cronRow);
-            }else{
+            } else {
                 throw new Exception('Row cron not found or not active');
             }
-        }else{
+        } else {
             throw new Exception('Id of cron not found or empty');
         }
 
@@ -62,21 +62,23 @@ class SchemaCron extends Command
                     $Totum->transactionStart();
                     $Table = $Totum->getTable('crons');
                     $Calc = new CalculateAction($cronRow['code']);
-                    $Calc->execAction('CRON',
+                    $Calc->execAction(
+                        'CRON',
                         $cronRow,
                         $cronRow,
                         $Table->getTbl(),
                         $Table->getTbl(),
                         $Table,
                         'exec',
-                        []);
+                        []
+                    );
                     $Totum->transactionCommit();
                 } catch (errorException $e) {
                     $Conf = $Conf->getClearConf();
                     $Conf->cronErrorActions($cronRow, $User, $e);
                 }
                 break;
-            } catch (tableSaveException $exception) {
+            } catch (tableSaveException) {
                 $Conf = $Conf->getClearConf();
             }
         }

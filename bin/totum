@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env ./php8
 <?php
 
 use totum\commands\CleanSchemasTmpTables;
@@ -9,7 +9,6 @@ use totum\commands\GitUpdate;
 use totum\commands\SchemaAdd;
 use totum\commands\SchemaCron;
 use totum\commands\SchemaCrons;
-use totum\commands\SchemaDecode;
 use totum\commands\Install;
 use totum\commands\SchemaDuplicate;
 use totum\commands\SchemaPasswd;
@@ -26,7 +25,6 @@ use Symfony\Component\Console\Application;
 
 $app = new Application();
 if (class_exists(Conf::class)) {
-    $app->add(new SchemaDecode());
     $app->add(new SchemaCrons());
     $app->add(new SchemaCron());
 

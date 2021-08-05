@@ -14,7 +14,6 @@ use totum\common\errorException;
 use totum\common\TotumInstall;
 use totum\common\User;
 use totum\config\Conf;
-use totum\config\Conf2;
 
 class SchemaAdd extends Command
 {
@@ -42,6 +41,9 @@ class SchemaAdd extends Command
             throw new errorException('Enter schema host');
         }
 
+        if (!method_exists($Conf, 'setHostSchema')) {
+            throw new errorException('It is not a multi-Conf');
+        }
         $Conf->setHostSchema($input->getArgument('host'), $input->getArgument('name'));
 
         $TotumInstall=new TotumInstall($Conf, new User(['login' => 'service', 'roles' => ["1"], 'id' => 1], $Conf), $output);
@@ -66,7 +68,7 @@ class SchemaAdd extends Command
         if (!preg_match('~/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return([^$]*)}[^$]*/\*\*\*getSchemasEnd\*\*\*/~', $ConfFileContent, $matches)) {
             throw new Exception('Format of file not correct. Can\'t replace function getSchemas');
         }
-        eval("\$schemas={$matches[1]}");
+        eval("\$schemas=$matches[1]");
         $schemas[$input->getArgument('host')]=$input->getArgument('name');
         $ConfFileContent= preg_replace('~(/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return\s*)([^$]*)(}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~', '$1'.var_export($schemas, 1).';$3', $ConfFileContent);
         copy($ConfFile, $ConfFile.'_old');

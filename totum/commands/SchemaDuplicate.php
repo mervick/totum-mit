@@ -81,11 +81,10 @@ class SchemaDuplicate extends Command
                 throw new errorException('Temporary file ' . $tmpFileName . ' not writeable');
             }
 
-
+            $tmpold = $baseName . '_tmpold';
             $is_schema_replaced = false;
             while (($buffer = fgets($handle)) !== false) {
                 if (!$is_schema_replaced && preg_match('/^CREATE SCHEMA/', $buffer)) {
-                    $tmpold = $baseName . '_tmpold';
                     $buffer = 'ALTER SCHEMA "' . $baseName . '" RENAME TO "' . $tmpold . '";' . $buffer;
                     $is_schema_replaced = true;
                 }
@@ -102,7 +101,6 @@ class SchemaDuplicate extends Command
 
                 while (($buffer = fgets($handle)) !== false) {
                     if (!$is_schema_replaced && preg_match('/^CREATE/', $buffer)) {
-                        $tmpold = $baseName . '_tmpold';
                         $buffer = 'ALTER SCHEMA "' . $baseName . '" RENAME TO "' . $tmpold . '"; 
                         CREATE SCHEMA "' . $baseName . '"; 
                         ' . $buffer;
@@ -141,7 +139,7 @@ class SchemaDuplicate extends Command
                 )) {
                     $output->writeln('save Conf.php');
 
-                    eval("\$schemas={$matches[1]}");
+                    eval("\$schemas=$matches[1]");
                     $schemas[$host] = $desName;
                     $ConfFileContent = preg_replace(
                         '~(/\*\*\*getSchemas\*\*\*/[^$]*{[^$]*return\s*)([^$]*)(}[^$]*/\*\*\*getSchemasEnd\*\*\*/)~',
