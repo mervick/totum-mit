@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <head lang="ru">
     <script>App = {}</script>
-    <link rel="stylesheet"
-          type="text/css"
-          href="/css/libs.css?v=005a92c">
+    <link rel="stylesheet" type="text/css" href="/css/libs.css?v=005a92c">
     <script src="/js/libs.js?v=f52b4ad"></script>
-    <link rel="stylesheet"
-          type="text/css"
-          href="/css/main.css?v=ff013ff">
+    <script src="/js/jquery.bootstrap-touchspin.min.js?aa"></script>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.bootstrap-touchspin.min.css?aa">
+    <link rel="stylesheet" type="text/css" href="/css/tree-number-input.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css?v=ff013ff">
 
     <?php
     if ($isCreatorView ?? null) { ?>
@@ -19,8 +18,6 @@
     } ?>
 
     <script src="/js/main.js?v=71f3627"></script>
-
-
     <link rel="shortcut icon" type="image/png" href="/fls/6_favicon.png"/>
 
     <?php
