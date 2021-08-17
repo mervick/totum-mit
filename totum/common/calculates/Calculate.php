@@ -4225,7 +4225,7 @@ SQL;
                 $post,
                 (($params['ssh'] ?? false) ? 'parallel' : $params['timeout'] ?? null),
                 ($params['headers'] ?? ""),
-                ($params['method'] ?? ""),
+                ($params['method'] ?? "")
             );
             if ($toBfl) {
                 $this->Table->getTotum()->getOutersLogger()->error(
