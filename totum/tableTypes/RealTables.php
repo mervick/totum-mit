@@ -390,6 +390,12 @@ abstract class RealTables extends aTable
                 return [];
             }
         } else {
+            $idField = null;
+            if ($returnType !== 'field' && ($wh = $params['where']) && count($wh) === 1 && $wh[0]['field'] && $wh[0]['operator'] === '=') {
+                $idField = $wh[0]['field'];
+                $fieldsString = implode(',', [$idField, $fieldsString]);
+            }
+
             $r = $this->model->executePrepared(
                 true,
                 (object)['whereStr' => $whereStr, 'params' => $paramsWhere],
@@ -404,6 +410,20 @@ abstract class RealTables extends aTable
                 }
                 return null;
             } else {
+                if ($idField) {
+                    $result = array_fill_keys(array_keys($paramsWhere), 0);
+                    foreach ($r as $row) {
+                        $id = $row[$idField];
+                        unset($row[$idField]);
+                        $v = $sectionReplaces($row)[$params['field'][0]];
+                        foreach ($paramsWhere as $index => $paramId) {
+                            if ($id == $paramId) {
+                                $result[$index] = $v;
+                            }
+                        }
+                    }
+                    return $result;
+                }
                 foreach ($r as &$row) {
                     $row = $sectionReplaces($row)[$params['field'][0]];
                 }
