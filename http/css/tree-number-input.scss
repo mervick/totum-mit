@@ -1,0 +1,38 @@
+.fieldparams-edit-panel .form-control.tree-number-input {
+  font-size: 12px !important;
+}
+
+.tree-number-input-wrapper {
+  display: inline-flex;
+  vertical-align: top;
+  margin-left: 6px;
+  .tree-number-input {
+    margin-top: 1px;
+    width: 32px;
+    height: 22px;
+    padding: 2px 0;
+    font-size: 12px !important;
+    line-height: 18px;
+    text-align: center;
+  }
+  .btn-default {
+    border-color: #ccc!important;
+    &:hover {
+      border-color: #adadad!important;
+    }
+  }
+  .input-group-prepend {
+    .btn-default {
+      border-right: 0!important;
+    }
+  }
+  .input-group-append {
+    border-left: 0!important;
+  }
+}
+
+.jstree-anchor:not(.jstree-clicked) + .tree-number-input-wrapper {
+  .bootstrap-touchspin {
+    display: none!important;
+  }
+}

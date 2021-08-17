@@ -1,0 +1,28 @@
+.fieldparams-edit-panel .form-control.tree-number-input {
+  font-size: 12px !important; }
+
+.tree-number-input-wrapper {
+  display: inline-flex;
+  vertical-align: top;
+  margin-left: 6px; }
+  .tree-number-input-wrapper .tree-number-input {
+    margin-top: 1px;
+    width: 32px;
+    height: 22px;
+    padding: 2px 0;
+    font-size: 12px !important;
+    line-height: 18px;
+    text-align: center; }
+  .tree-number-input-wrapper .btn-default {
+    border-color: #ccc !important; }
+    .tree-number-input-wrapper .btn-default:hover {
+      border-color: #adadad !important; }
+  .tree-number-input-wrapper .input-group-prepend .btn-default {
+    border-right: 0 !important; }
+  .tree-number-input-wrapper .input-group-append {
+    border-left: 0 !important; }
+
+.jstree-anchor:not(.jstree-clicked) + .tree-number-input-wrapper .bootstrap-touchspin {
+  display: none !important; }
+
+/*# sourceMappingURL=tree-number-input.css.map */
