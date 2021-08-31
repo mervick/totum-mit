@@ -370,7 +370,7 @@ abstract class ConfParent
 
         $dir = $this->logsDir;
         if (!is_dir($dir)) {
-            mkdir($dir);
+            @mkdir($dir);
         }
         $this->Loggers[$type] = new Log(
             $fileName ?? $dir . $type . '_' . $this->getSchema(false) . '.log',

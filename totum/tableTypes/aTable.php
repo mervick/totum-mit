@@ -744,7 +744,7 @@ abstract class aTable
                     $param = '$selId';
                     $row2 = "\n" . <<<CODE
 selId: select(table: '{$this->fields[$fieldName]['selectTable']}'; field: 'id'; where: '{$this->fields[$fieldName]['selectTableBaseField']}' = #{$fieldName})
-CODE;;
+CODE;
                 } else {
                     $param = '#' . $fieldName;
                 }
