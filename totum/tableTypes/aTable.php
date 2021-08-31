@@ -490,11 +490,13 @@ abstract class aTable
                             $_version = $this->Totum->getCycle(
                                 $cycleId,
                                 $linkTableRow['tree_node_id']
+//                            )->getVersionForTable($f['linkTableName']);
                             )->getVersionForTable($f['linkTableName'])[0];
                         } else {
                             $_version = CalcsTablesVersions::init($this->Totum->getConfig())->getDefaultVersion($f['linkTableName']);
                         }
 
+//                        $fForLink = $this->loadFields($linkTableId, $_version);
                         $fForLink = $this->loadFields($linkTableId, $_version)[$f['linkFieldName']];
                     } else {
                         $fForLink = $this->loadFields($linkTableId)[$f['linkFieldName']];
@@ -550,6 +552,7 @@ abstract class aTable
     public static function getFullField($fieldRow)
     {
         $data = json_decode($fieldRow['data'], true);
+//return $data;
         return array_merge(
             $data ?? [],
             ['category' => $fieldRow['category'], 'name' => $fieldRow['name'], 'ord' => $fieldRow['ord'], 'id' => $fieldRow['id'], 'title' => $fieldRow['title']]

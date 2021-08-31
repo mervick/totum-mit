@@ -185,7 +185,8 @@ class Tree extends Field
 
         if (array_key_exists('codeSelect', $this->data)) {
             $Log = $this->table->calcLog(['itemId' => $row['id'] ?? null, 'cType' => "treeList", 'field' => $this->data['name']]);
-
+//return;
+//
             try {
                 $list = $this->CalculateCodeSelect->exec(
                     $this->data,
@@ -208,6 +209,9 @@ class Tree extends Field
             }
             $this->log = $this->CalculateCodeSelect->getLogVar();
             $this->parentName = $this->CalculateCodeSelect->getParentName();
+//
+
+
         }
 
         if ($this->data['category'] === 'filter') {
